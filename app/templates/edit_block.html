@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Vokabelliste bearbeiten</h1>
+    <form method="POST" action="{{ url_for('routes_bp.edit_block', block_id=block.id) }}">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ block.name }}" required minlength="2" maxlength="15">
+        </div>
+        <div class="mb-3">
+            <label for="language1" class="form-label">Sprache 1</label>
+            <input type="text" class="form-control" id="language1" name="language1" value="{{ block.sprache1 }}" required minlength="2" maxlength="15">
+        </div>
+        <div class="mb-3">
+            <label for="language2" class="form-label">Sprache 2</label>
+            <input type="text" class="form-control" id="language2" name="language2" value="{{ block.sprache2 }}" required minlength="2" maxlength="15">
+        </div>
+        <button type="submit" class="btn btn-primary">Änderungen speichern</button>
+    </form>
+</div>
+{% endblock %}

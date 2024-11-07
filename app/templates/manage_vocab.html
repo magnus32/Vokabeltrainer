@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Vokabeln hinzufügen für {{ block.name }} ({{ block.sprache1 }} - {{ block.sprache2 }}) vom {{ block.created_at.strftime('%d.%m.%Y') }}</h1>
+    <form method="POST" action="{{ url_for('routes_bp.manage_vocab', block_id=block.id) }}">
+        <div class="mb-3">
+            <label for="sprache1" class="form-label">{{ block.sprache1 }}</label>
+            <input type="text" class="form-control" id="sprache1" name="sprache1" required>
+        </div>
+        <div class="mb-3">
+            <label for="sprache2" class="form-label">{{ block.sprache2 }}</label>
+            <input type="text" class="form-control" id="sprache2" name="sprache2" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Vokabel hinzufügen</button>
+    </form>
+
+    {% if vocab_list %}
+        <h2 class="mt-5">Vokabeln</h2>
+        <ul class="list-group">
+            {% for vocab in vocab_list %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ vocab.sprache1 }} - {{ vocab.sprache2 }}
+                    <div>
+                        <a href="{{ url_for('routes_bp.edit_vocab', vocab_id=vocab.id) }}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Bearbeiten
+                        </a>
+                        <form method="POST" action="{{ url_for('routes_bp.delete_vocab', vocab_id=vocab.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i> Löschen
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}

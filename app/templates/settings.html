@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    {% if vocab_blocks %}
+        <h2 class="mb-4">Vokabelliste auswählen</h2>
+        <ul class="list-group mb-5">
+            {% for block in vocab_blocks %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ block.name }} ({{ block.sprache1 }} - {{ block.sprache2 }}) - erstellt am {{ block.created_at.strftime('%d.%m.%Y') }}
+                    <div>
+                        <a href="{{ url_for('routes_bp.edit_block', block_id=block.id) }}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Bearbeiten
+                        </a>
+                        <a href="{{ url_for('routes_bp.manage_vocab', block_id=block.id) }}" class="btn btn-info btn-sm">
+                            <i class="fas fa-plus"></i> Vokabeln hinzufügen/bearbeiten
+                        </a>
+                        <form method="POST" action="{{ url_for('routes_bp.delete_block', block_id=block.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i> Löschen
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h1 class="mb-4">Vokabelliste erstellen</h1>
+    <form method="POST" action="{{ url_for('routes_bp.settings') }}">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" required minlength="2" maxlength="15">
+        </div>
+        <div class="mb-3">
+            <label for="language1" class="form-label">Sprache 1</label>
+            <input type="text" class="form-control" id="language1" name="language1" required minlength="2" maxlength="15">
+        </div>
+        <div class="mb-3">
+            <label for="language2" class="form-label">Sprache 2</label>
+            <input type="text" class="form-control" id="language2" name="language2" required minlength="2" maxlength="15">
+        </div>
+        <button type="submit" class="btn btn-primary">Neue Vokabelliste erstellen</button>
+    </form>
+</div>
+{% endblock %}
